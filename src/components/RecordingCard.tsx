@@ -3,10 +3,22 @@ import toast from "react-hot-toast";
 import { format } from "date-fns";
 import { calculateRecordingDuration } from "@/lib/utils";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
-import { CalendarIcon, ClockIcon, CopyIcon, PlayIcon } from "lucide-react";
+import {
+  CalendarIcon,
+  ClockIcon,
+  CopyIcon,
+  PlayIcon,
+  XIcon,
+} from "lucide-react";
 import { Button } from "./ui/button";
 
-function RecordingCard({ recording }: { recording: CallRecording }) {
+function RecordingCard({
+  recording,
+  onRemove,
+}: {
+  recording: CallRecording;
+  onRemove: () => void;
+}) {
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(recording.url);
@@ -26,7 +38,16 @@ function RecordingCard({ recording }: { recording: CallRecording }) {
       : "Unknown duration";
 
   return (
-    <Card className="group hover:shadow-md transition-all">
+    <Card className="group relative hover:shadow-md transition-all">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute top-2 right-2 h-8 w-8 text-muted-foreground hover:text-red-500"
+        onClick={onRemove}
+        aria-label="Remove recording"
+      >
+        <XIcon className="h-4 w-4" />
+      </Button>
       {/* CARD HEADER */}
       <CardHeader className="space-y-1">
         <div className="space-y-2">

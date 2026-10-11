@@ -18,7 +18,7 @@ function RecordingsPage() {
       try {
         // Get recordings for each call
         const callData = await Promise.all(
-          calls.map((call) => call.queryRecordings())
+          calls.map((call) => call.queryRecordings()),
         );
         const allRecordings = callData.flatMap((call) => call.recordings);
 
@@ -48,7 +48,13 @@ function RecordingsPage() {
         {recordings.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 pb-6">
             {recordings.map((r) => (
-              <RecordingCard key={r.end_time} recording={r} />
+              <RecordingCard
+                key={r.end_time}
+                recording={r}
+                onRemove={() =>
+                  setRecordings((prev) => prev.filter((item) => item !== r))
+                }
+              />
             ))}
           </div>
         ) : (
